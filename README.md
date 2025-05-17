@@ -1,34 +1,82 @@
 # ROS_Gate_Control
-Hardware Components
-•	Ultrasonic Sensor (HC-SR04): Measures distance to detect objects in front of the gate.
-•	Servo Motor: Operates the gate by rotating between open and closed positions.
-•	Arduino UNO: Handles sensor data acquisition and servo control.
-•	ROS 2 Machine (Ubuntu): Runs ROS 2 nodes, processes serial data, and visualizes the system in RViz.
-•	USB Serial Communication: Facilitates data exchange between Arduino and ROS 2.
-Software Architecture
-•	Arduino Firmware:
-o	Measures distance using ultrasonic sensor.
-o	Operates gate using servo motor.
-o	Sends distance data via serial to ROS 2.
-•	ROS 2 Python Node (arduino_reader_node):
-o	Reads distance values from serial.
-o	Publishes std_msgs/Int32 messages to ultrasonic_distance topic.
-o	Controls logic to determine gate state.
-o	Publishes RViz visualization_msgs/Marker messages for gate and vehicle representation.
-Implementation
-Arduino Code
-•	Initializes the ultrasonic sensor and servo motor.
-•	Continuously measures distance and opens the gate if distance < 15 cm.
-•	After a delay, closes the gate if the object moves away.
-•	Sends distance data via USB serial to ROS 2.
-ROS 2 Python Node
-•	Reads serial data from /dev/ttyUSB0 and parses the distance.
-•	Publishes the distance to a ROS topic.
-•	Controls gate state using a simple thresholding logic.
-•	Publishes two Marker messages:
-o	A blue cube representing the approaching vehicle (positioned based on distance).
-o	A green or black gate marker (green when open, black when closed).
-Visualization
-•	RViz is used to display a dynamic scene with:
-o	The vehicle marker moving closer or farther based on distance.
-o	The gate changing color to indicate open/closed status.
+# ROS 2 Automated Gate Control System
+
+This project implements an automated gate control system using an Arduino and ROS 2, integrating hardware sensors with real-time visualization in RViz.
+
+---
+
+## 🧰 Hardware Components
+
+- **Ultrasonic Sensor (HC-SR04):**  
+  Measures distance to detect objects in front of the gate.
+
+- **Servo Motor:**  
+  Operates the gate by rotating between open and closed positions.
+
+- **Arduino UNO:**  
+  Handles sensor data acquisition and servo control.
+
+- **ROS 2 Machine (Ubuntu):**  
+  Runs ROS 2 nodes, processes serial data, and visualizes the system in RViz.
+
+- **USB Serial Communication:**  
+  Facilitates data exchange between Arduino and ROS 2.
+
+---
+
+## 🧱 Software Architecture
+
+### Arduino Firmware
+- Measures distance using the ultrasonic sensor.
+- Operates the gate using the servo motor.
+- Sends distance data via serial to the ROS 2 system.
+
+### ROS 2 Python Node (`arduino_reader_node`)
+- Reads distance values from the serial port.
+- Publishes `std_msgs/Int32` messages to the `/ultrasonic_distance` topic.
+- Implements logic to determine and control gate state.
+- Publishes `visualization_msgs/Marker` messages for RViz representation.
+
+---
+
+## 🚦 Implementation
+
+### Arduino Code
+- Initializes the ultrasonic sensor and servo motor.
+- Continuously measures distance.
+- Opens the gate if the distance is less than 15 cm.
+- Closes the gate after a delay when the object moves away.
+- Sends distance data via USB serial to the ROS 2 system.
+
+### ROS 2 Python Node
+- Reads serial data from `/dev/ttyUSB0`.
+- Parses the distance and publishes it to a ROS topic.
+- Controls the gate state using threshold logic.
+- Publishes two RViz markers:
+  - **Blue cube** representing the approaching vehicle (position based on distance).
+  - **Green or black gate marker** (green when open, black when closed).
+
+---
+
+## 🖥️ Visualization
+
+Using **RViz**, a dynamic scene is displayed with:
+
+- A vehicle marker moving closer or farther based on the detected distance.
+- A gate marker that changes color to represent open (green) or closed (black) status.
+
+---
+
+## 📦 Requirements
+
+- Arduino IDE
+- ROS 2 (tested on ROS 2 Humble)
+- Python 3 with `pyserial` and `rclpy`
+- RViz2
+
+---
+
+
+## 📜 License
+
+This project is open-source and available under the MIT License.
